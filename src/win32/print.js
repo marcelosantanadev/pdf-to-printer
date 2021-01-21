@@ -3,15 +3,15 @@
 const path = require("path");
 const fs = require("fs");
 const execAsync = require("../execAsync");
-const { fixPathForAsarUnpack } = require("../electron-util");
 
 const print = (pdf, options = {}) => {
   if (!pdf) throw "No PDF specified";
   if (typeof pdf !== "string") throw "Invalid PDF name";
   if (!fs.existsSync(pdf)) throw "No such file";
 
-  let file = path.join(process.cwd(), "SumatraPDF.exe");
-  file = fixPathForAsarUnpack(file);
+  let file = process.env.PRINTER_PATH
+    ? path.join(process.env.PRINTER_PATH, "SumatraPDF.exe")
+    : path.join(process.cwd(), "SumatraPDF.exe");
 
   const args = [];
 
